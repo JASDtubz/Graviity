@@ -96,13 +96,13 @@ public class Main extends Application
                 }
             }
 
-            dd[i][0] = this.d[i][0] + a + 1 / (this.d[i][0] - 1024) + 1 / this.d[i][0];
-            dd[i][1] = this.d[i][1] + b + 1 / (this.d[i][1] - 576) + 1 / this.d[i][1];
+            dd[i][0] = this.d[i][0] + a + 1 / -(1024 - this.d[i][0]) + 1 / this.d[i][0];
+            dd[i][1] = this.d[i][1] + b + 1 / -(576 - this.d[i][1]) + 1 / this.d[i][1];
 
-            if (dd[i][0] > 1024) { dd[i][0] = 1023.99; }
-            if (dd[i][0] < -1) { dd[i][0] = 0; }
-            if (dd[i][1] > 576) { dd[i][1] = 575.99; }
-            if (dd[i][1] < -1) { dd[i][1] = 0; }
+            if (dd[i][0] > 1024) { dd[i][0] = d[i][0] % 1024; }
+            if (dd[i][0] < -1) { dd[i][0] = 1024 - d[i][0] % 1024; }
+            if (dd[i][1] > 576) { dd[i][1] = d[i][1] % 576; }
+            if (dd[i][1] < -1) { dd[i][1] = 576 - d[i][1] % 576; }
         }
 
         this.gc.setFill(Color.BLACK);
