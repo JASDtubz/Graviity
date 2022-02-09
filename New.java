@@ -122,48 +122,41 @@ public class Main extends Application
 
         for (int i = 0; i < this.d.length; i++)
         {
-            double a = 0, b = 0, xx = this.d[i].x.get(this.n), yy = this.d[i].y.get(this.n);
+            double a = 0, b = 0, xx = this.d[i].x.get(this.n), yy = this.d[i].y.get(this.n), o = 1;
 
             for (int j = 0; j < this.d.length; j++)
             {
-                if (i != j)
-                {
-                    double v = this.d[j].x.get(this.n);
-                    double w = this.d[j].y.get(this.n);
+                double v = this.d[j].x.get(this.n);
+                double w = this.d[j].y.get(this.n);
 
-                    if (v - xx > 512) { v = -v - 512; }
-                    else if (xx - v > 512) { v += 1024; }
-                    if (w - yy > 288) { w = -v - 288; }
-                    else if (yy - w > 288) { w += 576; }
+                if (v - xx > 512) { v = -v - 512; }
+                else if (xx - v > 512) { v += 1024; }
+                
+                if (w - yy > 288) { w = -v - 288; }
+                else if (yy - w > 288) { w += 576; }
 
-                    a += 1 / (v - xx);
-                    b += 1 / (w - yy);
-                }
+                a += v;
+                b += w;
+                
+                o *= 1 / Math.sqrt((v - xx) * (v - xx) - (w - yy) * (w - yy));
             }
+            
+            a /= this.d.length;
+            b /= this.d.length;
+            
+            double l = Math.atan((b - yy) / (a - xx));
+            
+            
+            
+            
 
-            dd[i][0] = this.d[i].x.get(this.n) + (a > 0 ? Math.sqrt(a) : -Math.sqrt(-a)); // + 1 / -(1024 - this.d[i][0]) + 1 / this.d[i][0];
-            dd[i][1] = this.d[i].y.get(this.n) + (b > 0 ? Math.sqrt(b) : -Math.sqrt(-b)); // + 1 / -(576 - this.d[i][1]) + 1 / this.d[i][1];
+            dd[i][0] = this.d[i].x.get(this.n) + (a > 0 ? Math.sqrt(a) : -Math.sqrt(-a));
+            dd[i][1] = this.d[i].y.get(this.n) + (b > 0 ? Math.sqrt(b) : -Math.sqrt(-b));
 
-            if (this.d[i].x.get(this.n) > 1024)
-            {
-                dd[i][0] = this.d[i].x.get(this.n) - 1024;
-                //a_ = 0;
-            }
-            if (this.d[i].x.get(this.n) < 0)
-            {
-                dd[i][0] = 1024 + this.d[i].x.get(this.n);
-                //a_ = 0;
-            }
-            if (this.d[i].y.get(this.n) > 576)
-            {
-                dd[i][1] = this.d[i].y.get(this.n) - 576;
-                //b_ = 0;
-            }
-            if (this.d[i].y.get(this.n) < 0)
-            {
-                dd[i][1] = 576 + this.d[i].y.get(this.n);
-                //b_ = 0;
-            }
+            if (this.d[i].x.get(this.n) > 1024) { dd[i][0] = this.d[i].x.get(this.n) - 1024; }
+            if (this.d[i].x.get(this.n) < 0) { dd[i][0] = 1024 + this.d[i].x.get(this.n); }
+            if (this.d[i].y.get(this.n) > 576) { dd[i][1] = this.d[i].y.get(this.n) - 576; }
+            if (this.d[i].y.get(this.n) < 0) { dd[i][1] = 576 + this.d[i].y.get(this.n); }
         }
 
         this.gc.setFill(Color.BLACK);
@@ -178,10 +171,9 @@ public class Main extends Application
             this.d[i].y.add(dd[i][1]);
         }
 
-        long l = System.currentTimeMillis();
-        while (System.currentTimeMillis() - l < 33) { System.out.print(""); }
+        Thread.sleep(33);
 
-        n++;
+        this.n++;
 
         if (this.b) { Platform.runLater(this::execute); }
     }
