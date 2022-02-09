@@ -122,7 +122,7 @@ public class Main extends Application
 
         for (int i = 0; i < this.d.length; i++)
         {
-            double a = 0, b = 0, xx = this.d[i].x.get(this.n), yy = this.d[i].y.get(this.n), o = 1;
+            double a = 0, b = 0, xx = this.d[i].x.get(this.n), yy = this.d[i].y.get(this.n), o = 1, p = this.d.length;
 
             for (int j = 0; j < this.d.length; j++)
             {
@@ -141,12 +141,13 @@ public class Main extends Application
                 o *= 1 / Math.sqrt((v - xx) * (v - xx) - (w - yy) * (w - yy));
             }
             
-            a /= this.d.length;
-            b /= this.d.length;
+            a /= p;
+            b /= p;
             
-            double l = Math.atan((b - yy) / (a - xx));
-            
-            
+            double h = a - xx;
+            double l = Math.atan((b - yy) / h);
+            double q = h >= 0 ? Math.cos(l) * Math.pow(o, 1 / p) + xx : -Math.cos(l) * Math.pow(o, 1 / p) + xx;
+            double s = h >= 0 ? Math.sin(l) * Math.pow(o, 1 / p) + yy : -Math.sin(l) * Math.pow(o, 1 / p) + yy;
             
             
 
