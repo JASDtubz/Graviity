@@ -172,7 +172,8 @@ public class Main extends Application
             this.d[i].y.add(dd[i][1]);
         }
 
-        Thread.sleep(33);
+        try { Thread.sleep(33); }
+        catch (Exception ignore) { }
 
         this.n++;
 
