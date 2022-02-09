@@ -118,11 +118,12 @@ public class Main extends Application
     {
         this.stage.setTitle(String.valueOf(this.n));
 
-        double[][] dd = new double[this.d.length][2];
+        int p = this.d.length;
+        double[][] dd = new double[p][2];
 
-        for (int i = 0; i < this.d.length; i++)
+        for (int i = 0; i < p; i++)
         {
-            double a = 0, b = 0, xx = this.d[i].x.get(this.n), yy = this.d[i].y.get(this.n), o = 1, p = this.d.length;
+            double a = 0, b = 0, xx = this.d[i].x.get(this.n), yy = this.d[i].y.get(this.n), o = 1;
 
             for (int j = 0; j < this.d.length; j++)
             {
@@ -149,25 +150,32 @@ public class Main extends Application
             double q = h >= 0 ? Math.cos(l) * Math.pow(o, 1 / p) + xx : -Math.cos(l) * Math.pow(o, 1 / p) + xx;
             double s = h >= 0 ? Math.sin(l) * Math.pow(o, 1 / p) + yy : -Math.sin(l) * Math.pow(o, 1 / p) + yy;
             
+            double xo = q - xx;
+            double yo = s - yy;
             
+            double xn = (xo + this.d[i].xm) / 2;
+            double yn = (yo + this.d[i].ym) / 2;
 
-            dd[i][0] = this.d[i].x.get(this.n) + (a > 0 ? Math.sqrt(a) : -Math.sqrt(-a));
-            dd[i][1] = this.d[i].y.get(this.n) + (b > 0 ? Math.sqrt(b) : -Math.sqrt(-b));
+            dd[i][0] = this.d[i].x.get(this.n) + xn;
+            dd[i][1] = this.d[i].y.get(this.n) + yn;
 
             if (this.d[i].x.get(this.n) > 1024) { dd[i][0] = this.d[i].x.get(this.n) - 1024; }
             if (this.d[i].x.get(this.n) < 0) { dd[i][0] = 1024 + this.d[i].x.get(this.n); }
             if (this.d[i].y.get(this.n) > 576) { dd[i][1] = this.d[i].y.get(this.n) - 576; }
             if (this.d[i].y.get(this.n) < 0) { dd[i][1] = 576 + this.d[i].y.get(this.n); }
+            
+            this.d[i].xm = xn;
+            this.d[i].ym = yn;
         }
 
         this.gc.setFill(Color.BLACK);
         this.gc.fillRect(0, 0, 1024, 576);
         this.gc.setFill(Color.RED);
 
-        for (int i = 0; i < this.d.length; i++) { this.gc.fillOval(dd[i][0] - 5, dd[i][1] - 5, 10, 10); }
-
-        for (int i = 0; i < this.d.length; i++)
+        for (int i = 0; i < p; i++)
         {
+            this.gc.fillOval(dd[i][0] - 5, dd[i][1] - 5, 10, 10);
+            
             this.d[i].x.add(dd[i][0]);
             this.d[i].y.add(dd[i][1]);
         }
