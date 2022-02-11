@@ -133,7 +133,7 @@ public class Main extends Application
                 if (v - xx > 512) { v = -v - 512; }
                 else if (xx - v > 512) { v += 1024; }
                 
-                if (w - yy > 288) { w = -v - 288; }
+                if (w - yy > 288) { w = -w - 288; }
                 else if (yy - w > 288) { w += 576; }
 
                 a += v;
