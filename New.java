@@ -139,7 +139,7 @@ public class Main extends Application
                 a += v;
                 b += w;
                 
-                o *= 1 / Math.sqrt((v - xx) * (v - xx) - (w - yy) * (w - yy));
+                o *= 1 / Math.sqrt((v - xx) * (v - xx) + (w - yy) * (w - yy));
             }
             
             a /= p;
